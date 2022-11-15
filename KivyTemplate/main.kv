@@ -1,0 +1,139 @@
+<MainScreen>:
+
+    name: 'main'
+    FloatLayout:
+        size_hint: None, None
+
+    DPEAButton:
+        id: right_button
+        text: '>'
+        font_size: self.width * .5
+        size_hint: .1, 1
+        pos_hint: {"x": .9, "y":0}
+        color: 0, 1, 0, 1
+        on_press: root.switch_to_traj()
+
+    DPEAButton:
+        id: left_button
+        text: "<"
+        font_size: self.width * .5
+        size_hint: .1, 1
+        pos_hint: {"x": 0, "y":0}
+        color: 1, 0, 0, 1
+        on_press: root.switch_to_gpio()
+
+    DPEAButton:
+        id: rotate
+        text: "clockwise"
+        rotation: False
+        size: 300, 100
+        font_size: self.width * 0.1
+        pos_hint: {"center_x": 0.5, "center_y":0.2}
+        color: 0.5, 0.2, 0.9, 1
+        on_press: root.rotate_motor()
+
+    Slider:
+        id: velocity
+        orientation: 'horizontal'
+        min: 0
+        max: 20
+        value: root.velocity
+        step: 1
+        center_x: root.width * 0.2
+        y: root.height * 0.3
+        size_hint_x: 1
+        sensitivity: 'handle'
+        on_value: root.set_velocity(self.value)
+
+    Label:
+        id: velocityLabel
+        text: 'Velocity: ' + str(velocity.value)
+        font_size: 20
+        center_x: root.width * 0.2
+        center_y: root.height * 0.5
+        color: 0.5, 0.2, 0.9, 1
+
+    #Slider:
+        #id: acceleration
+        #orientation: 'horizontal'
+        #min: 0
+        #max: 5
+        #value: root.currentRamp
+        #step: 1
+        #center_x: root.width * 0.2
+        #y: root.height * 0.1
+        #size_hint_x: 1
+        #sensitivity: 'handle'
+        #on_value: root.set_acceleration(self.value)
+
+    #Label:
+        #id: rampLabel
+        #text: 'Accelerating: ' + str(acceleration.value)
+        #font_size: 20
+        #center_x: root.width * 0.2
+        #center_y: root.height * 0.7
+        #color: 0.5, 0.2, 0.9, 1
+
+    #DPEAButton:
+        #id: homing
+        #text: "Home"
+        #font_size: self.width * .1
+        #size: 200, 100
+        #pos_hint: {"center_x": 0.5, "center_y":0.5}
+        #color: 1, 0, 0, 1
+        #on_press: root.home()
+
+    DPEAButton:
+        id: stopping
+        text: "Stop"
+        font_size: self.width * .05
+        size: 50, 50
+        pos_hint: {"center_x": 0.7, "center_y":0.5}
+        color: 0, 0, 1, 1
+        on_press: root.stop()
+
+<TrajectoryScreen>:
+
+    name: 'main'
+    FloatLayout:
+        size_hint: None, None
+
+    DPEAButton:
+        id: test_button
+        text:'back'
+        size: 100, 100
+        pos_hint: {"center_x": 0.5, "center_y":0.5}
+        color: 0, 1, 0, 1
+        on_press: root.switch_screen()
+
+    DPEAButton:
+        id: target_position
+        #value: 0
+        text: '0'
+        size: 100, 100
+        pos_hint: {"center_x": 0.5, "center_y":0.7}
+        color: 0, 0, 1, 1
+        on_press: root.target_pos()
+
+    DPEAButton:
+        id: accelerate
+        #value: 0
+        text: '0'
+        size: 100, 100
+        pos_hint: {"center_x": 0.5, "center_y":0.3}
+        color: 1, 0, 0, 1
+        on_press: root.accelerate()
+
+<GPIOScreen>:
+
+    name: 'main'
+    FloatLayout:
+        size_hint: None, None
+
+    DPEAButton:
+        id: test_button
+        text:'back'
+        size: 100, 100
+        pos_hint: {"center_x": 0.5, "center_y":0.5}
+        color: 1, 0, 0, 1
+        on_press: root.switch_screen()
