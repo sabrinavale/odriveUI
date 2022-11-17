@@ -26,7 +26,7 @@
         id: rotate
         text: "clockwise"
         rotation: False
-        size: 300, 100
+        size: 350, 100
         font_size: self.width * 0.1
         pos_hint: {"center_x": 0.5, "center_y":0.2}
         color: 0.5, 0.2, 0.9, 1
@@ -70,8 +70,8 @@
         #id: rampLabel
         #text: 'Accelerating: ' + str(acceleration.value)
         #font_size: 20
-        #center_x: root.width * 0.2
-        #center_y: root.height * 0.7
+        #center_x: root.width * 0.4
+        #center_y: root.height * 0.6
         #color: 0.5, 0.2, 0.9, 1
 
     #DPEAButton:
@@ -108,21 +108,47 @@
 
     DPEAButton:
         id: target_position
-        #value: 0
-        text: '0'
-        size: 100, 100
-        pos_hint: {"center_x": 0.5, "center_y":0.7}
+        value: root.currentPos
+        text: 'Target: ' + str(self.value)
+        size: 300, 100
+        pos_hint: {"center_x": 0.5, "center_y":0.8}
         color: 0, 0, 1, 1
         on_press: root.target_pos()
 
     DPEAButton:
         id: accelerate
-        #value: 0
-        text: '0'
-        size: 100, 100
+        value: root.currentRamp
+        text: 'Acceleration: ' + str(self.value)
+        size: 350, 100
         pos_hint: {"center_x": 0.5, "center_y":0.3}
         color: 1, 0, 0, 1
         on_press: root.accelerate()
+
+    DPEAButton:
+        id: decelerate
+        value: root.currentDeRamp
+        text: 'Deceleration: ' + str(self.value)
+        size: 350, 100
+        pos_hint: {"center_x": 0.7, "center_y":0.5}
+        color: 0, 0.5, 0.5, 1
+        on_press: root.deceleration()
+
+    DPEAButton:
+        id: velo
+        value: root.currentVel
+        text: 'Velocity: ' + str(self.value)
+        size: 300, 100
+        pos_hint: {"center_x": 0.3, "center_y":0.5}
+        color: 0.7, 0, 0.5, 1
+        on_press: root.velocity()
+
+    DPEAButton:
+        id: submit
+        text: 'Submit'
+        size: 150, 100
+        pos_hint: {"center_x": 0.5, "center_y":0.1}
+        color: 0.5, 0, 0.8, 1
+        on_press: root.submission()
 
 <GPIOScreen>:
 

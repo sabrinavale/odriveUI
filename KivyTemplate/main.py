@@ -58,6 +58,7 @@ class MainScreen(Screen):
     Class to handle the main screen and its associated touch events
     """
     velocity = 0
+    currentRamp = 0
 
     def switch_to_traj(self):
         SCREEN_MANAGER.transition.direction = "left"
@@ -69,16 +70,16 @@ class MainScreen(Screen):
 
     def rotate_motor(self):
         if self.ids.rotate.rotation == False:
-            ax.set_vel(self.velocity)
+            #ax.set_vel(self.velocity)
+            self.ids.rotate.rotation = True
             self.ids.rotate.text = "clockwise"
             ax.set_relative_pos(5)
-            self.ids.rotate.rotation = True
             ax.wait_for_motor_to_stop()
         elif self.ids.rotate.rotation == True:
-            ax.set_vel(self.velocity)
+            #ax.set_vel(self.velocity)
+            self.ids.rotate.rotation = False
             self.ids.rotate.text = "counter-clockwise"
             ax.set_relative_pos(-5)
-            self.ids.rotate.rotation = False
             ax.wait_for_motor_to_stop()
 
     def stop(self):
@@ -93,7 +94,7 @@ class MainScreen(Screen):
 
     def set_acceleration(self, accel: float):
         ax.set_ramped_vel(self.velocity, accel)
-        print(ax.get_vel())
+        #print(ax.get_vel())
 
     def admin_action(self):
         """
@@ -110,25 +111,43 @@ class TrajectoryScreen(Screen):
     """
     currentPos = 0
     currentRamp = 0
+    currentDeRamp = 0
+    currentVel = 0
 
     def switch_screen(self):
         SCREEN_MANAGER.transition.direction = "right"
         SCREEN_MANAGER.current = MAIN_SCREEN_NAME
 
     def target_pos(self):
-        current_pos = self.ids.target_position.text
+        current_pos = self.ids.target_position.value
         current_pos = int(current_pos)
         current_pos += 1
-        self.ids.target_position.text = str(current_pos)
+        self.ids.target_position.value = str(current_pos)
         self.currentPos = current_pos
 
     def accelerate(self):
-        acc = self.ids.accelerate.text
+        acc = self.ids.accelerate.value
         acc = int(acc)
         acc += 1
-        self.ids.accelerate.text = str(acc)
+        self.ids.accelerate.value = str(acc)
         self.currentRamp = acc
 
+    def deceleration(self):
+        dec = self.ids.decelerate.value
+        dec = int(dec)
+        dec += 1
+        self.ids.decelerate.value = str(dec)
+        self.currentDeRamp = dec
+
+    def velocity(self):
+        vel = self.ids.velo.value
+        vel = int(vel)
+        vel += 1
+        self.ids.velo.value = str(vel)
+        self.currentVel = vel
+
+    def submission(self):
+        ax.set_pos_traj(self.currentPos, self.currentRamp, self.currentVel, self.currentDeRamp)
 
 class GPIOScreen(Screen):
     """
